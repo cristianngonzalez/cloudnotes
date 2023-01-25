@@ -37,17 +37,48 @@
                     plugins: [ dayGridPlugin, interactionPlugin , timeGridPlugin ],
                     initialView: 'dayGridMonth',
                     selectable: true,
-                    //====================================================================================
-                    //Events
+                    //============================================================================================================
+                    //Methods
                     dateClick: function(info) {
+                        console.log(info)
                         alert('Clicked on: ' + info.dateStr);
                         alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
                         alert('Current view: ' + info.view.type);
                         // change the day's background color just for fun
                         info.dayEl.style.backgroundColor = 'red';
-                    }
+                    },
+                    //End Methods
+                    //==============================================================================================================
+                    //============================================================================================================
+                    //Events
+                    events: [
+                        { // this object will be "parsed" into an Event Object
+                            title: 'The Title', // a property!
+                            start: '2023-01-01', // a property!
+                            end: '2023-01-04', // a property! ** see important note below about 'end' **
+                            editable: true,
+                        }
+                    ],
+                    eventColor: '#378006',
                     //End Events
-                    //====================================================================================
+                    //==============================================================================================================
+                    //============================================================================================================
+                    //Events Methods
+                    eventClick: function(info) {
+                        alert('Event: ' + info.event.title);
+                        alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+                        alert('View: ' + info.view.type);
+                        // change the border color just for fun
+                        info.el.style.borderColor = 'red';
+                    },
+                    eventDragStart: function(info){
+                        console.log(info)
+                    },
+                    eventDragStop: function(info){
+                        console.log(info)
+                    }
+                    //End Events Methods
+                    //============================================================================================================
                 }
             }
         },
