@@ -29,6 +29,7 @@
     import interactionPlugin from '@fullcalendar/interaction'
 
     import axios from 'axios';
+    import Swal from 'sweetalert2';
 
 
     export default {
@@ -69,11 +70,39 @@
                     //Methods
                     dateClick: function(info) {
                         console.log(info)
-                        alert('Clicked on: ' + info.dateStr);
-                        alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-                        alert('Current view: ' + info.view.type);
-                        // change the day's background color just for fun
-                        info.dayEl.style.backgroundColor = 'red';
+
+                        Swal.fire({
+                            title: 'Submit your Github username',
+                            input: 'date',
+                            inputAttributes: {
+                                autocapitalize: 'off'
+                            },
+                            showCancelButton: true,
+                            confirmButtonText: 'Look up',
+                            showLoaderOnConfirm: true,
+                            preConfirm: (login) => {
+                                return fetch(`//api.github.com/users/${login}`)
+                                .then(response => {
+                                    if (!response.ok) {
+                                    throw new Error(response.statusText)
+                                    }
+                                    return response.json()
+                                })
+                                .catch(error => {
+                                    Swal.showValidationMessage(
+                                    `Request failed: ${error}`
+                                    )
+                                })
+                            },
+                            allowOutsideClick: () => !Swal.isLoading()
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                title: `${result.value.login}'s avatar`,
+                                imageUrl: result.value.avatar_url
+                                })
+                            }
+                        })
                     },
                     //End Methods
                     //==============================================================================================================
