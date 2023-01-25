@@ -53,11 +53,19 @@
                     //Events
                     events: [
                         { // this object will be "parsed" into an Event Object
+                            id: 0,
                             title: 'The Title', // a property!
                             start: '2023-01-01', // a property!
                             end: '2023-01-04', // a property! ** see important note below about 'end' **
                             editable: true,
-                        }
+                        },
+                        { // this object will be "parsed" into an Event Object
+                            id: 24,
+                            title: 'Mi segundo evento', // a property!
+                            start: '2023-01-13', // a property!
+                            end: '2023-01-14', // a property! ** see important note below about 'end' **
+                            editable: true,
+                        },
                     ],
                     eventColor: '#378006',
                     //End Events
@@ -70,13 +78,18 @@
                         alert('View: ' + info.view.type);
                         // change the border color just for fun
                         info.el.style.borderColor = 'red';
+                        console.log(info.event.id)
                     },
                     eventDragStart: function(info){
                         console.log(info)
                     },
                     eventDragStop: function(info){
                         console.log(info)
-                    }
+                    },
+                    selectMirror: function(info){
+                        console.log('Arrastre')
+                        console.log(info)
+                    },
                     //End Events Methods
                     //============================================================================================================
                 }

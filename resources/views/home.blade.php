@@ -3,6 +3,7 @@
 @section('content')
 
 
+
 <home-component></home-component>
 
 
