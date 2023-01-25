@@ -28,11 +28,39 @@
     import timeGridPlugin from '@fullcalendar/timegrid';
     import interactionPlugin from '@fullcalendar/interaction'
 
+    import axios from 'axios';
 
 
     export default {
+        mounted() {
+
+            let events;
+
+            axios.post(
+                `${this.url}/events/all`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Requested-With": "XMLHttpRequest",
+                        "Access-Control-Allow-Origin": "*",
+                        "X-CSRF-TOKEN": this.token,
+                    },
+                }
+            ).then((res) => {
+                console.log(res.data)
+                this.calendarOptions.events = res.data;
+            }).catch((res) => {
+
+            });
+
+            
+
+            console.log('Component mounted.')
+        },
         data() {
             return {
+                token: token,//Token comes from the blade layout file
+                url: url, //Url comes from the blade layout file
                 calendarOptions: {
                     plugins: [ dayGridPlugin, interactionPlugin , timeGridPlugin ],
                     initialView: 'dayGridMonth',
@@ -97,9 +125,6 @@
         },
         components: {
             FullCalendar // make the <FullCalendar> tag available
-        },
-        mounted() {
-            console.log('Component mounted.')
         }
     }
 </script>

@@ -75,6 +75,12 @@
 
         
         <main>
+
+            <script>
+                let token = '{{csrf_token()}}';
+                let url = "{{url('/')}}";
+            </script>
+
             @yield('content')
         </main>
     </div>
