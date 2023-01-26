@@ -16,6 +16,12 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
+
+    <script>
+        let token = '{{csrf_token()}}';
+        let url = "{{url('/')}}";
+    </script>
+
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -74,12 +80,6 @@
 
         
         <main>
-
-            <script>
-                let token = '{{csrf_token()}}';
-                let url = "{{url('/')}}";
-            </script>
-
             @yield('content')
         </main>
     </div>

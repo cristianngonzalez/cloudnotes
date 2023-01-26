@@ -14,7 +14,7 @@
         </div>
     </div>
     
-    <AddEventModalComponent ref="AddEventModalComponentRef"></AddEventModalComponent>
+    <DateDetailModalComponent ref="DateDetailModalComponentRef" :events="calendarOptions.events"></DateDetailModalComponent>
 
 </template>
 
@@ -36,12 +36,12 @@
     import Swal from 'sweetalert2';
 
     //Components
-    import AddEventModalComponent from './AddEventModalComponent.vue';
+    import DateDetailModalComponent from './DateDetailModalComponent.vue';
 
     export default {
         components: {
             FullCalendar, // make the <FullCalendar> tag available
-            AddEventModalComponent,
+            DateDetailModalComponent,
         },
         mounted() {
 
@@ -70,7 +70,7 @@
             return {
                 token: token,//Token comes from the blade layout file
                 url: url, //Url comes from the blade layout file
-
+            
                 exampleModal: null,
 
                 calendarOptions: {
@@ -80,8 +80,7 @@
                     //============================================================================================================
                     //Methods
                     dateClick: (info) => {
-                        console.log(info)
-                        this.showAddEventModal();
+                        this.showDateDetailModal(info);
                     },
                     //End Methods
                     //==============================================================================================================
@@ -93,13 +92,6 @@
                             title: 'The Title', // a property!
                             start: '2023-01-01', // a property!
                             end: '2023-01-04', // a property! ** see important note below about 'end' **
-                            editable: true,
-                        },
-                        { // this object will be "parsed" into an Event Object
-                            id: 24,
-                            title: 'Mi segundo evento', // a property!
-                            start: '2023-01-13', // a property!
-                            end: '2023-01-14', // a property! ** see important note below about 'end' **
                             editable: true,
                         },
                     ],
@@ -133,8 +125,8 @@
         },
         
         methods: {
-            showAddEventModal: function(){
-                this.$refs.AddEventModalComponentRef.showModal();
+            showDateDetailModal: function(info){
+                this.$refs.DateDetailModalComponentRef.showModal(info);
             }
         }
     }
