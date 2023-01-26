@@ -13,6 +13,37 @@
             </div>
         </div>
     </div>
+    
+
+
+
+
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
 </template>
 
 
@@ -30,10 +61,16 @@
 
     import axios from 'axios';
     import Swal from 'sweetalert2';
-
+    import { Modal } from 'bootstrap';
 
     export default {
+        components: {
+            FullCalendar, // make the <FullCalendar> tag available
+        },
         mounted() {
+
+            this.exampleModal = new Modal(document.getElementById('exampleModal'));
+            this.exampleModal.show();
 
             let events;
 
@@ -62,6 +99,9 @@
             return {
                 token: token,//Token comes from the blade layout file
                 url: url, //Url comes from the blade layout file
+
+                exampleModal: null,
+
                 calendarOptions: {
                     plugins: [ dayGridPlugin, interactionPlugin , timeGridPlugin ],
                     initialView: 'dayGridMonth',
@@ -71,38 +111,8 @@
                     dateClick: function(info) {
                         console.log(info)
 
-                        Swal.fire({
-                            title: 'Submit your Github username',
-                            input: 'date',
-                            inputAttributes: {
-                                autocapitalize: 'off'
-                            },
-                            showCancelButton: true,
-                            confirmButtonText: 'Look up',
-                            showLoaderOnConfirm: true,
-                            preConfirm: (login) => {
-                                return fetch(`//api.github.com/users/${login}`)
-                                .then(response => {
-                                    if (!response.ok) {
-                                    throw new Error(response.statusText)
-                                    }
-                                    return response.json()
-                                })
-                                .catch(error => {
-                                    Swal.showValidationMessage(
-                                    `Request failed: ${error}`
-                                    )
-                                })
-                            },
-                            allowOutsideClick: () => !Swal.isLoading()
-                            }).then((result) => {
-                            if (result.isConfirmed) {
-                                Swal.fire({
-                                title: `${result.value.login}'s avatar`,
-                                imageUrl: result.value.avatar_url
-                                })
-                            }
-                        })
+                        this.$bvModal.show('exampleModal')
+
                     },
                     //End Methods
                     //==============================================================================================================
@@ -152,8 +162,9 @@
                 }
             }
         },
-        components: {
-            FullCalendar // make the <FullCalendar> tag available
+        
+        methods: {
+            
         }
     }
 </script>
