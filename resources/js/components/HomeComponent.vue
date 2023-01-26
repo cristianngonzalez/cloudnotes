@@ -14,7 +14,7 @@
         </div>
     </div>
     
-    <AddEventModalComponent></AddEventModalComponent>
+    <AddEventModalComponent ref="AddEventModalComponentRef"></AddEventModalComponent>
 
 </template>
 
@@ -44,8 +44,6 @@
             AddEventModalComponent,
         },
         mounted() {
-
-            let events;
 
             axios.post(
                 `${this.url}/events/all`,
@@ -81,11 +79,9 @@
                     selectable: true,
                     //============================================================================================================
                     //Methods
-                    dateClick: function(info) {
+                    dateClick: (info) => {
                         console.log(info)
-
-                        this.$bvModal.show('exampleModal')
-
+                        this.showAddEventModal();
                     },
                     //End Methods
                     //==============================================================================================================
@@ -137,7 +133,9 @@
         },
         
         methods: {
-            
+            showAddEventModal: function(){
+                this.$refs.AddEventModalComponentRef.showModal();
+            }
         }
     }
 </script>

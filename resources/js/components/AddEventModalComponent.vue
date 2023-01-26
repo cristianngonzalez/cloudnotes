@@ -34,9 +34,18 @@
 
 
     export default{
+        data() {
+            return{
+                addEventModal: null
+            }
+        },  
         mounted() {
             this.addEventModal = new Modal(document.getElementById('addEventModal'));
-            this.addEventModal.show();
+        },
+        methods: {
+            showModal: function(){
+                this.addEventModal.show();
+            }
         }
     }
 
