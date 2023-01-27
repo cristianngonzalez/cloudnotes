@@ -14,4 +14,12 @@ class EventsController extends Controller{
         $events = Event::all();
         return response()->json($events);
     }
+
+    public function set(){
+
+        return response()->json([
+            'name' => 'Abigail',
+            'state' => 'CA',
+        ]);
+    }
 }

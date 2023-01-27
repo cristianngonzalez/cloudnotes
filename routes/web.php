@@ -18,6 +18,7 @@ Route::get('/', function () {
 */
 
 Route::post('/events/all', [App\Http\Controllers\EventsController::class, 'all'])->name('EventsAll');
+Route::post('/events/set' , [App\Http\Controllers\EventsController::class, 'set'])->name('EventsSet');
 
 Auth::routes();
 

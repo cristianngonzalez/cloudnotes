@@ -17,6 +17,15 @@
                 <div class="modal-body">
 
                     <div class="row">
+                        <div class="col-12">
+                            <button class="btn btn-primary" @click="toggleMenu">
+                                <span v-if="!addNewEventMenu">Add new event</span>
+                                <span v-else="!addNewEventMenu">View events of this date</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div v-if="!addNewEventMenu" class="row">
                         <div class="col-12" v-for="event in events">
                             <div v-if="event.start == dateStr">
                                 {{ event.title }}
@@ -24,20 +33,23 @@
                         </div>
                     </div>
 
-                    <form>
-                        <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label">Recipient:</label>
-                            <input type="text" class="form-control" id="recipient-name">
+                    <form v-else="!addNewEventMenu">
+                        <div class="mb-1">
+                            <label for="eventStart" class="col-form-label">When does the event start?</label>
+                            <input type="date" class="form-control" id="eventStart">
                         </div>
-                        <div class="mb-3">
-                            <label for="message-text" class="col-form-label">Message:</label>
-                            <textarea class="form-control" id="message-text"></textarea>
+                        <div class="mb-1">
+                            <label for="eventEnd" class="col-form-label">When does the event finish?</label>
+                            <input type="date" class="form-control" id="eventEnd">
+                        </div>
+                        <div class="mb-1">
+                            <label for="eventName" class="col-form-label">What is the name of the event?</label>
+                            <input type="text" class="form-control" id="eventName">
+                        </div>
+                        <div class="mb-1">
+                            <button class="btn btn-primary" @click="setEvent($event)">Create event</button>
                         </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">New Event</button>
                 </div>
             </div>
         </div>
@@ -57,7 +69,19 @@
         },
         data() {
             return{
+                token: token,//Token comes from the blade layout file
+                url: url, //Url comes from the blade layout file
+
                 dateDetailModal: null, //Dom modal element
+
+                addNewEventMenu: false,//Param that switch the modal menu between add event and     
+
+                //This object is for binding class of inputs form addEvent
+                validateForm: {
+                    end: true,
+                    start: true,
+                    name: true,
+                },
 
                 dateStr: '',
                 thisDateEvents: [],
@@ -74,8 +98,44 @@
                 this.dateStr = info.dateStr;
 
                 this.dateDetailModal.show();
+            },
+
+            toggleMenu: function(){
+                this.addNewEventMenu = !this.addNewEventMenu;
+            },
+
+            setEvent: function(e){
+
+                e.preventDefault();
+
+
+                axios.post(
+                    `${this.url}/events/set`,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-Requested-With": "XMLHttpRequest",
+                            "Access-Control-Allow-Origin": "*",
+                            "X-CSRF-TOKEN": this.token,
+                        },
+                    }
+                ).then((res) => {
+                    console.log(res.data)
+                }).catch((res) => {
+
+                });
+
             }
         }
     }
 
 </script>
+
+<style>
+
+.formRequired{
+    border-color: #FF0000;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+</style>
