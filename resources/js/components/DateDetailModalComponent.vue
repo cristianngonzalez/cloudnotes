@@ -36,15 +36,15 @@
                     <form v-else="!addNewEventMenu">
                         <div class="mb-1">
                             <label for="eventStart" class="col-form-label">When does the event start?</label>
-                            <input type="date" class="form-control" id="eventStart">
+                            <input v-model="event.start" type="date" class="form-control" :class="{'form-control-danger' : !validateForm.start }">
                         </div>
                         <div class="mb-1">
                             <label for="eventEnd" class="col-form-label">When does the event finish?</label>
-                            <input type="date" class="form-control" id="eventEnd">
+                            <input v-model="event.end" type="date" class="form-control">
                         </div>
                         <div class="mb-1">
                             <label for="eventName" class="col-form-label">What is the name of the event?</label>
-                            <input type="text" class="form-control" id="eventName">
+                            <input v-model="event.title" type="text" class="form-control">
                         </div>
                         <div class="mb-1">
                             <button class="btn btn-primary" @click="setEvent($event)">Create event</button>
@@ -80,7 +80,13 @@
                 validateForm: {
                     end: true,
                     start: true,
-                    name: true,
+                    title: true,
+                },
+                //Data of new event (model with the template form)
+                event: {
+                    start: false,
+                    end: false,
+                    title: '',
                 },
 
                 dateStr: '',
@@ -105,12 +111,12 @@
             },
 
             setEvent: function(e){
-
                 e.preventDefault();
-
+                //ValidateForm
+                
 
                 axios.post(
-                    `${this.url}/events/set`,
+                    `${this.url}/events/set`, this.event ,
                     {
                         headers: {
                             "Content-Type": "application/json",
@@ -133,7 +139,7 @@
 
 <style>
 
-.formRequired{
+.form-control-danger{
     border-color: #FF0000;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
 }
