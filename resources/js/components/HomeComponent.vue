@@ -22,7 +22,11 @@
         </div>
     </div>
     
-    <DateDetailModalComponent ref="DateDetailModalComponentRef" :events="calendarOptions.events" @newEvent="newEvent"></DateDetailModalComponent>
+    <DateDetailModalComponent 
+        ref="DateDetailModalComponentRef" 
+        :events="calendarOptions.events" 
+        @newEvent="newEvent" @removeEvent="removeEvent">
+    </DateDetailModalComponent>
 
 </template>
 
@@ -139,7 +143,15 @@
                     this.calendarOptions.events.push(event);
                     this.printAlertToDom("<strong>Perfect!</strong> you have created a new event, we'll remind you." , 'success');
                 }else{
-                    this.printAlertToDom('Siii' , 'success');
+                    this.printAlertToDom("<strong>We are sorry!</strong> there was an error." , 'danger');
+                }
+            },
+            removeEvent: function(event){
+                if(event){
+                    this.calendarOptions.events = this.calendarOptions.events.filter(e => e.id !== event.id);
+                    this.printAlertToDom("<strong>Perfect!</strong> you have removed an event." , 'success');
+                }else{
+                    this.printAlertToDom("<strong>We are sorry!</strong> there was an error." , 'danger');
                 }
             },
             //Emit Receipt events end

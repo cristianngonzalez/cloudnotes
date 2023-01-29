@@ -171,8 +171,9 @@
                         },
                     }
                 ).then((res) => {
-                    if(res.status == 201){
-                        console.log('Se elimino')
+                    if(res.status == 200){
+                        this.$emit('removeEvent', res.data);
+                        this.hideModal();
                     }
                 }).catch((res) => {
                     //this.$emit('newEvent', false);
