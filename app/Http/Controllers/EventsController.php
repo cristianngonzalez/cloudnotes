@@ -15,11 +15,21 @@ class EventsController extends Controller{
         return response()->json($events);
     }
 
-    public function set(){
+    public function set(Request $req){
+
+        $event = new Event();
+        $event->user_id = $req->user_id;
+        $event->title = $req->title;
+        $event->end = $req->end;
+        $event->start = $req->start;
+
+        $event->save();
+        
 
         return response()->json([
-            'name' => 'Abigail',
-            'state' => 'CA',
+            'user_id' => $req->user_id,
+            'start' => $req->start,
+            'end' => $req->end
         ]);
     }
 }

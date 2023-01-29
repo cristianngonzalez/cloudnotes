@@ -59,7 +59,13 @@
                 console.log(res.data)
                 this.calendarOptions.events = res.data;
             }).catch((res) => {
-
+                this.calendarOptions.events = { // this object will be "parsed" into an Event Object
+                            id: 0,
+                            title: 'Ay jesus', // a property!
+                            start: '2023-01-01', // a property!
+                            end: '2023-01-04', // a property! ** see important note below about 'end' **
+                            editable: true,
+                }
             });
 
             
@@ -86,15 +92,7 @@
                     //==============================================================================================================
                     //============================================================================================================
                     //Events
-                    events: [
-                        { // this object will be "parsed" into an Event Object
-                            id: 0,
-                            title: 'The Title', // a property!
-                            start: '2023-01-01', // a property!
-                            end: '2023-01-04', // a property! ** see important note below about 'end' **
-                            editable: true,
-                        },
-                    ],
+                    events: [],
                     eventColor: '#378006',
                     //End Events
                     //==============================================================================================================

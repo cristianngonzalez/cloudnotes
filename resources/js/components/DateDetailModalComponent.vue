@@ -1,11 +1,5 @@
 <template>
 
-<!-- Button trigger modal
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Launch demo modal
-    </button>
--->
-
     <!-- Modal -->
     <div class="modal fade" id="dateDetailModal" tabindex="-1" aria-labelledby="dateDetailModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -16,9 +10,9 @@
                 </div>
                 <div class="modal-body">
 
-                    <div class="row">
+                    <div class="row mb-2">
                         <div class="col-12">
-                            <button class="btn btn-primary" @click="toggleMenu">
+                            <button class="btn btn-sm btn-primary" @click="toggleMenu">
                                 <span v-if="!addNewEventMenu">Add new event</span>
                                 <span v-else="!addNewEventMenu">View events of this date</span>
                             </button>
@@ -26,11 +20,35 @@
                     </div>
 
                     <div v-if="!addNewEventMenu" class="row">
-                        <div class="col-12" v-for="event in events">
-                            <div v-if="event.start == dateStr">
-                                {{ event.title }}
-                            </div>
+                        <!---------------------------------------------------------------->
+                        <!--List events-->
+                        <div v-if="events.length > 0">
+
+                            <table class="table">
+                                <tbody>
+                                    <tr v-for="event in events">
+                                        <template v-if="event.start == dateStr">
+                                            <td>{{ event.title }}</td>
+                                            <td><button class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash3"></i>
+                                            </button></td>
+                                        </template>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            
                         </div>
+                        <!--End list events-->
+                        <!---------------------------------------------------------------->
+
+                        <!---------------------------------------------------------------->
+                        <!--If there aren't events-->
+                        <div v-if="events.length < 0">
+                            <span><i class="bi bi-journal-x"></i></span>
+                            <span>There are not event for this date, make one!</span>
+                        </div>
+                        <!---------------------------------------------------------------->
                     </div>
 
                     <form v-else="!addNewEventMenu">
@@ -84,6 +102,7 @@
                 },
                 //Data of new event (model with the template form)
                 event: {
+                    user_id: '2',
                     start: false,
                     end: false,
                     title: '',
