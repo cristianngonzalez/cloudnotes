@@ -16,7 +16,6 @@ class EventsController extends Controller{
     }
 
     public function set(Request $req){
-
         $event = new Event();
         $event->user_id = $req->user_id;
         $event->title = $req->title;
@@ -30,10 +29,19 @@ class EventsController extends Controller{
     }
 
     public function delete(Request $req){
-
         $event = Event::find($req->id);
         $event->delete();
 
         return $event;
+    }
+
+    public function update(Request $req){
+        $event = Event::find($req->id);
+        $event->start = $req->start;
+        $event->end = $req->end;
+
+        $event->save();
+        
+        return $event; 
     }
 }

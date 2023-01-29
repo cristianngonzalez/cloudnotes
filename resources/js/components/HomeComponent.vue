@@ -116,15 +116,37 @@
                         console.log(info.event.id)
                     },
                     eventDragStart: function(info){
-                        console.log(info)
                     },
-                    eventDragStop: function(info){
-                        console.log(info)
+                    eventDragStop: (info) => {
                     },
                     selectMirror: function(info){
-                        console.log('Arrastre')
-                        console.log(info)
                     },
+                    eventDrop: (info) => {
+                        
+                        console.log(info)
+                        axios.post(
+                            `${this.url}/events/update`, 
+                            {
+                                id: info.event.id,
+                                start: info.event.startStr,
+                                end: info.event.endStr,
+                            }
+                            ,
+                            {
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-Requested-With": "XMLHttpRequest",
+                                    "Access-Control-Allow-Origin": "*",
+                                    "X-CSRF-TOKEN": this.token,
+                                },
+                            }
+                        ).then((res) => {
+
+                        }).catch((res) => {
+
+                        });
+                        
+                    }
                     //End Events Methods
                     //============================================================================================================
                 }

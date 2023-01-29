@@ -20,6 +20,7 @@ Route::get('/', function () {
 Route::post('/events/all', [App\Http\Controllers\EventsController::class, 'all'])->name('EventsAll');
 Route::post('/events/set' , [App\Http\Controllers\EventsController::class, 'set'])->name('EventsSet');
 Route::post('/events/delete' , [App\Http\Controllers\EventsController::class, 'delete'])->name('EventsDelete');
+Route::post('/events/update' , [App\Http\Controllers\EventsController::class, 'update'])->name('EventsUpdate');
 
 Auth::routes();
 
