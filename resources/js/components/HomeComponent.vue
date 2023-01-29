@@ -1,5 +1,13 @@
 <template>
+
     <div class="container">
+
+        <div class="row mt-3">
+            <div class="col-12" id="alerts-container-respawn">
+                
+            </div>
+        </div>
+
         <div class="row justify-content-center">
             <div class="col-12 mt-3">
                 <div class="card">
@@ -14,12 +22,9 @@
         </div>
     </div>
     
-    <DateDetailModalComponent ref="DateDetailModalComponentRef" :events="calendarOptions.events"></DateDetailModalComponent>
+    <DateDetailModalComponent ref="DateDetailModalComponentRef" :events="calendarOptions.events" @newEvent="newEvent"></DateDetailModalComponent>
 
 </template>
-
-
-
 
 
 <script>
@@ -125,6 +130,29 @@
         methods: {
             showDateDetailModal: function(info){
                 this.$refs.DateDetailModalComponentRef.showModal(info);
+            },
+            //==========================================================
+            //Emit Receipt events
+            newEvent: function(event){
+                if(event){
+                    //The new event to the events array
+                    this.calendarOptions.events.push(event);
+                    this.printAlertToDom("<strong>Perfect!</strong> you have created a new event, we'll remind you." , 'success');
+                }else{
+                    this.printAlertToDom('Siii' , 'success');
+                }
+            },
+            //Emit Receipt events end
+            //==========================================================
+            printAlertToDom: function(text , action){
+                let container = document.getElementById('alerts-container-respawn');
+
+                container.innerHTML = `
+                    <div class="alert alert-${action} alert-dismissible fade show" role="alert">
+                        ${text}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `
             }
         }
     }

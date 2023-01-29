@@ -25,11 +25,15 @@ class EventsController extends Controller{
 
         $event->save();
         
+        return $event;
+        
+    }
 
-        return response()->json([
-            'user_id' => $req->user_id,
-            'start' => $req->start,
-            'end' => $req->end
-        ]);
+    public function delete(Request $req){
+
+        $event = Event::find($req->id);
+        $event->delete();
+
+        return $event;
     }
 }

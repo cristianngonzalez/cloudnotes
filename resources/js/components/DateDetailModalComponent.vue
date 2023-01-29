@@ -29,9 +29,11 @@
                                     <tr v-for="event in events">
                                         <template v-if="event.start == dateStr">
                                             <td>{{ event.title }}</td>
-                                            <td><button class="btn btn-sm btn-danger">
-                                                <i class="bi bi-trash3"></i>
-                                            </button></td>
+                                            <td>
+                                                <button @click="deleteEvent(event)" class="btn btn-sm btn-danger">
+                                                    <i class="bi bi-trash3"></i>
+                                                </button>
+                                            </td>
                                         </template>
                                     </tr>
                                 </tbody>
@@ -124,7 +126,9 @@
 
                 this.dateDetailModal.show();
             },
-
+            hideModal: function(){
+                this.dateDetailModal.hide();
+            },
             toggleMenu: function(){
                 this.addNewEventMenu = !this.addNewEventMenu;
             },
@@ -133,7 +137,6 @@
                 e.preventDefault();
                 //ValidateForm
                 
-
                 axios.post(
                     `${this.url}/events/set`, this.event ,
                     {
@@ -145,11 +148,36 @@
                         },
                     }
                 ).then((res) => {
-                    console.log(res.data)
+                    if(res.status == 201){
+                        this.$emit('newEvent', res.data);
+                        this.hideModal();
+                    }
                 }).catch((res) => {
-
+                    this.$emit('newEvent', false);
                 });
 
+            },
+
+            deleteEvent: function(event){
+                console.log(event)
+                axios.post(
+                    `${this.url}/events/delete`, event ,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-Requested-With": "XMLHttpRequest",
+                            "Access-Control-Allow-Origin": "*",
+                            "X-CSRF-TOKEN": this.token,
+                        },
+                    }
+                ).then((res) => {
+                    if(res.status == 201){
+                        console.log('Se elimino')
+                    }
+                }).catch((res) => {
+                    //this.$emit('newEvent', false);
+                    console.log('Desde el catch')
+                });
             }
         }
     }
